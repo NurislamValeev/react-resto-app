@@ -1,30 +1,59 @@
 const initialState = {
    menu: [],
    loading: true,
-   errorMessage: ''
+   errorMessage: '',
+   items: [],
 }
 
 const reducer = (state = initialState, action) => {
    switch (action.type) {
       case 'MENU-LOADED':
          return {
+            ...state,
             menu: action.payload,
             loading: false,
-            errorMessage: ''
          }
 
       case 'MENU-REQUESTED':
          return {
-            menu: state.menu,
+            ...state,
             loading: true,
-            errorMessage: ''
          }
 
       case 'MENU-FAILED':
          return {
-            menu: state.menu,
+            ...state,
             loading: false,
             errorMessage: 'Something went wrong'
+         }
+
+      case 'ITEM-ADD-TO-CART':
+         const id = action.payload
+         const item = state.menu.find(item => item.id === id)
+         const newItem = {
+            title: item.title,
+            price: item.price,
+            url: item.url,
+            id: item.id
+         }
+         return {
+            ...state,
+            items: [
+               ...state.items,
+               newItem
+            ]
+         }
+
+      case 'ITEM-REMOVE-FROM-CART':
+         const index = action.payload
+         const itemIndex = state.items.findIndex(item => item.id === index)
+
+         return {
+            ...state,
+            items: [
+               ...state.items.slice(0, itemIndex),
+               ...state.items.slice(itemIndex + 1)
+            ]
          }
 
       default:

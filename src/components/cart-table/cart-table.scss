@@ -32,6 +32,11 @@
             width: 250px;
             object-fit: cover;
         }
+        &-quantity {
+            color: white;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
     }
     &__close {
         position: absolute;

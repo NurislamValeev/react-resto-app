@@ -17,4 +17,18 @@ const menuFailed = () => {
    }
 }
 
-export {menuLoaded, menuRequested, menuFailed}
+const addedToCart = (id) => {
+   return {
+      type: 'ITEM-ADD-TO-CART',
+      payload: id
+   }
+}
+
+const deletedFromCart = (id) => {
+   return {
+      type: 'ITEM-REMOVE-FROM-CART',
+      payload: id
+   }
+}
+
+export {menuLoaded, menuRequested, menuFailed, addedToCart, deletedFromCart}

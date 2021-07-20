@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import WithRestoService from '../hoc/'
 import Spinner from '../spinner'
-import {menuLoaded, menuRequested, menuFailed} from '../../actions'
+import {addedToCart, menuFailed, menuLoaded, menuRequested} from '../../actions'
 
 import './itemPage.css'
 import {categoryIconSrc} from "../menu-list-item/menu-list-item"
@@ -10,7 +10,7 @@ import {categoryIconSrc} from "../menu-list-item/menu-list-item"
 class ItemPage extends Component {
 
    componentDidMount() {
-      if( this.props.menuItems.length === 0){
+      if (this.props.menuItems.length === 0) {
          this.props.menuRequested()
 
          const {RestoService} = this.props
@@ -23,30 +23,33 @@ class ItemPage extends Component {
    render() {
       if (this.props.loading) {
          return (
-            <div className = "item_page">
+            <div className="item_page">
                <Spinner/>
             </div>
          )
       }
       const item = this.props.menuItems.find(el => +el.id === +this.props.match.params.id)
-      const{title, url, category, price} = item
+      const {title, url, category, price} = item
 
       return (
-         <div className = "item_page">
+         <div className="item_page">
             <div className="menu__item item_block">
                <div className="menu__title">{title}</div>
                <img className="menu__img" src={url} alt=""></img>
                <div className="menu__category">Category: <span>{category}</span></div>
                <div className="menu__price">Price: <span>{price}$</span></div>
 
-               <button className="menu__btn"><span>Add to cart</span><img className="menu__category_icon" src={categoryIconSrc(category)} alt=""/></button>
+               <button onClick={() => this.props.addedToCart(item.id)} className="menu__btn"><span>Add to cart</span><img className="menu__category_icon"
+                                                                          src={categoryIconSrc(category)}
+                                                                          alt=""/>
+               </button>
             </div>
          </div>
       );
    }
 }
 
-const mapStateToProps =  (state) =>{
+const mapStateToProps = (state) => {
    return {
       menuItems: state.menu,
       loading: state.loading,
@@ -57,7 +60,8 @@ const mapStateToProps =  (state) =>{
 const mapDispatchToProps = {
    menuLoaded,
    menuRequested,
-   menuFailed
+   menuFailed,
+   addedToCart
 }
 
-export default WithRestoService()( connect(mapStateToProps, mapDispatchToProps)(ItemPage))
+export default WithRestoService()(connect(mapStateToProps, mapDispatchToProps)(ItemPage))
