@@ -3,7 +3,7 @@ import MenuListItem from '../menu-list-item'
 import './menu-list.scss'
 import {connect} from 'react-redux'
 import WithRestoService from "../hoc"
-import {menuLoaded, menuRequested, menuFailed} from "../../actions"
+import {menuFailed, menuLoaded, menuRequested} from "../../actions"
 import Spinner from "../spinner"
 
 class MenuList extends Component {
@@ -14,9 +14,7 @@ class MenuList extends Component {
       const {RestoService} = this.props
       RestoService.getMenuItems()
          .then(res => this.props.menuLoaded(res))
-         .catch(error => {
-            this.props.menuFailed()
-         })
+         .catch(error => this.props.menuFailed())
 
    }
 
@@ -30,14 +28,14 @@ class MenuList extends Component {
          return <div>{errorMessage}</div>
       }
 
-      return (
+      const menuElements = menuItems.map(menuItem => {
+         return <MenuListItem key={menuItem.id} menuItem={menuItem}/>
+      })
 
+
+      return (
          <ul className="menu__list">
-            {
-               menuItems.map(menuItem => {
-                  return <MenuListItem key={menuItem.id} menuItem={menuItem}/>
-               })
-            }
+            {menuElements}
          </ul>
       )
    }

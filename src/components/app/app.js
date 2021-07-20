@@ -2,7 +2,8 @@ import React from 'react'
 import {CartPage, MainPage} from '../pages'
 import AppHeader from '../app-header'
 import Background from './food-bg.jpg'
-import {Redirect, Route, Switch} from "react-router-dom"
+import {Route, Switch} from "react-router-dom"
+import ItemPage from "../pages/itemPage"
 
 const App = () => {
 
@@ -10,15 +11,9 @@ const App = () => {
       <div style={{background: `url(${Background}) center center/cover no-repeat`}} className="app">
          <AppHeader total={50}/>
          <Switch>
-            <Route exact path="/">
-               <Redirect to="/menu"/>
-            </Route>
-            <Route path="/menu">
-               <MainPage/>
-            </Route>
-            <Route path="/cart">
-               <CartPage/>
-            </Route>
+            <Route path = '/' exact component = {MainPage}/>
+            <Route path = '/cart' exact component = {CartPage}/>
+            <Route path = '/:id' component ={ItemPage}/>
          </Switch>
       </div>
    )

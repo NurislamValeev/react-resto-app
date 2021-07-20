@@ -10,14 +10,14 @@ const reducer = (state = initialState, action) => {
          return {
             menu: action.payload,
             loading: false,
-            errorMessage: state.errorMessage
+            errorMessage: ''
          }
 
       case 'MENU-REQUESTED':
          return {
             menu: state.menu,
             loading: true,
-            errorMessage: state.errorMessage
+            errorMessage: ''
          }
 
       case 'MENU-FAILED':
